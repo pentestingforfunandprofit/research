@@ -10,4 +10,4 @@ Apache Camel supports dozer, so this would be a feasible vector for processing a
 
 EventHandler is not serializable, and I couldn't easily find another InvocationHandler that was serializable and would permit this kind of attack. security@apache.org has been notified of this issue and has never replied. The dozer project has now been notified via the following bug:
 
-TODO (chicken and egg yo)
+https://github.com/DozerMapper/dozer/issues/217
