@@ -8,7 +8,7 @@ Evince will be run as soon as dozer tries to map that object.
 
 Apache Camel supports dozer, so this would be a feasible vector for processing attacker-supplied input. Camel may also allow an attacker to supply an XML mapping (I'm not sure if this is true or not), in which case this would be a pretty serious flaw (at least for Camel). There is, however, one remaining barrier to exploitation in a real-world scenario. How can an attacker provide a malicious proxy instance that survives serialization and deserialization, such that they could feasibly send it to a camel route (or other vulnerable endpoint)?
 
-EventHandler is not serializable. However, CVE-2011-2894 refers to a serializable proxy class in the Spring framework. With a vulnerable version of Spring on the server classpath, this issue can be exploited to achieve RCE. This is demonstrated by this PoC that maps a Corgi object to a Dachshund object (with the Corgi's width becoming the Dachshund's level). To try it, just run run.sh. The PoC relies on pwntester's CVE-2011-2894 exploit - credit to him for figuring out how to exploit that issue.
+EventHandler is not serializable. However, CVE-2011-2894 refers to a serializable proxy class in the Spring framework. With a vulnerable version of Spring on the server classpath, this issue can be exploited to achieve RCE. This is demonstrated by this PoC that maps a Corgi object to a Dachshund object (with the Corgi's width becoming the Dachshund's length). To try it, just run run.sh. The PoC relies on pwntester's CVE-2011-2894 exploit - credit to him for figuring out how to exploit that issue.
 
 security@apache.org has been notified of this issue and has never replied. The dozer project has been notified via the following bug:
 
