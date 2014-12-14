@@ -4,12 +4,13 @@
           xsi:schemaLocation="http://dozer.sourceforge.net
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
           
-  <mapping> 
-    <class-a>java.util.Collection</class-a>
-    <class-b>com.javapentesting.Dachshund</class-b>   
+  <mapping>
+    <class-a>com.javapentesting.Corgi</class-a>
+    <class-b>com.javapentesting.Dachshund</class-b>
     <field>
-      <a get-method="size">length</a>
+      <a get-method="getWidth">length</a>
       <b>length</b>
     </field>
   </mapping>
+
 </mappings>

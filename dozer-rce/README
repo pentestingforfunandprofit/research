@@ -1,13 +1,15 @@
+2014-12-14: RCE now working if vulnerable spring jars are on the server classpath
+
 Dozer uses a reflection-based approach to type conversion. If dozer is used to map attacker-supplied object instances, then the attacker can provide a dynamic proxy that implements an interface matching what dozer expects, but then use an event handler to execute all methods in that interface. As soon as dozer tries to execute any getter/setter methods, they'll trigger the event handler. So if the attacker declares an event handler like:
 
 EventHandler.create(Collection.class, new ProcessBuilder("/usr/bin/evince"), "start")
 
 Evince will be run as soon as dozer tries to map that object.
 
-The exploitable use case seems to be rather limited so far. There must either be an object being mapped to with a getter/setter method that matches a method in an interface on the server classpath, or a manual XML mapping that allows an attacker to force the issue, as in the the example exploit demonstrated by running run.sh.
-
 Apache Camel supports dozer, so this would be a feasible vector for processing attacker-supplied input. Camel may also allow an attacker to supply an XML mapping (I'm not sure if this is true or not), in which case this would be a pretty serious flaw (at least for Camel). There is, however, one remaining barrier to exploitation in a real-world scenario. How can an attacker provide a malicious proxy instance that survives serialization and deserialization, such that they could feasibly send it to a camel route (or other vulnerable endpoint)?
 
-EventHandler is not serializable, and I couldn't easily find another InvocationHandler that was serializable and would permit this kind of attack. security@apache.org has been notified of this issue and has never replied. The dozer project has now been notified via the following bug:
+EventHandler is not serializable. However, CVE-2011-2894 refers to a serializable proxy class in the Spring framework. With a vulnerable version of Spring on the server classpath, this issue can be exploited to achieve RCE. This is demonstrated by this PoC that maps a Corgi object to a Dachshund object (with the Corgi's width becoming the Dachshund's level). To try it, just run run.sh. The PoC relies on pwntester's CVE-2011-2894 exploit - credit to him for figuring out how to exploit that issue.
+
+security@apache.org has been notified of this issue and has never replied. The dozer project has been notified via the following bug:
 
 https://github.com/DozerMapper/dozer/issues/217
